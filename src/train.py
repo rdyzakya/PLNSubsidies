@@ -1,3 +1,4 @@
+import os
 import importlib
 import json
 import pickle
@@ -5,7 +6,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import argparse
 
-def load_parameters(json_path):
+def load_json(json_path):
     with open(json_path, 'r') as file:
         return json.load(file)
 
@@ -13,15 +14,17 @@ def save_as_pickle(data, filename):
     with open(filename, 'wb') as file:
         pickle.dump(data, file)
 
-def cluster_data(class_name, params_path, fit_params_path, scaling_option, input_csv, output_dir):
+def cluster_data(config_path, scaling_option, input_csv, output_dir):
+
+    config = load_json(config_path)
     # Dynamically import clustering class
-    module_name, class_name = class_name.rsplit('.', 1)
+    module_name, class_name = config["class_name"].rsplit('.', 1)
     module = importlib.import_module(module_name)
     clustering_class = getattr(module, class_name)
 
     # Load clustering parameters and fit parameters
-    clustering_params = load_parameters(params_path)
-    fit_params = load_parameters(fit_params_path)
+    clustering_params = config["hparams"]
+    fit_params = config["fit_params"]
 
     # Load and preprocess your data (assuming data is loaded as DataFrame)
     data = pd.read_csv(input_csv)
@@ -61,12 +64,13 @@ def cluster_data(class_name, params_path, fit_params_path, scaling_option, input
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Perform data clustering.')
-    parser.add_argument('--class_name', type=str, help='Class name (e.g., sklearn.cluster.KMeans)')
-    parser.add_argument('--params_path', type=str, help='Path to clustering parameters JSON file')
-    parser.add_argument('--fit_params_path', type=str, help='Path to fit parameters JSON file')
+    parser.add_argument('--config_path', type=str, help='Path to config JSON file, containing class_name, hparams, and fit_params keys')
     parser.add_argument('--scaling_option', type=str, help='Scaling option (standard, minmax, none)')
     parser.add_argument('--input_csv', type=str, help='Path to input CSV file')
     parser.add_argument('--output_dir', type=str, help='Output directory for saving results')
     args = parser.parse_args()
 
-    cluster_data(args.class_name, args.params_path, args.fit_params_path, args.scaling_option, args.input_csv, args.output_dir)
+    if not os.path.exists(args.output_dir):
+        os.makedirs(args.output_dir)
+
+    cluster_data(args.config_path, args.scaling_option, args.input_csv, args.output_dir)

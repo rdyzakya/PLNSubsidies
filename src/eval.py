@@ -17,7 +17,7 @@ def evaluate_clustering(input_csv, output_file):
 
     # Save silhouette score to a file
     with open(output_file, 'w') as file:
-        file.write(f'Silhouette Score: {silhouette_avg}')
+        file.write(str(silhouette_avg))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Evaluate clustered data.')
