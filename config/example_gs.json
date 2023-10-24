@@ -1,0 +1,9 @@
+[
+    {
+        "class_name": "sklearn.cluster.KMeans",
+        "hparams": {
+            "n_clusters": [3, 5, 7]
+        },
+        "fit_params" : {}
+    }
+]
