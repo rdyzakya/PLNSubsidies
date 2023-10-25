@@ -6,7 +6,7 @@ def load_json(json_path):
         return json.load(file)
 
 def dump_json(obj, json_path):
-    with open(json_path, 'r') as file:
+    with open(json_path, 'w') as file:
         json.dump(obj, file)
 
 def save_as_pickle(data, filename):

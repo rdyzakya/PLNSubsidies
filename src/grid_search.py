@@ -13,7 +13,7 @@ def run_process(command):
 gs_path = "../config/gs.json"
 config_path = "../config/config.json"
 data_path = "../data/preprocessed_data_all.csv"
-out_dir = "./out"
+out_dir = "../out"
 
 gs_config = load_json(gs_path)
 
@@ -46,7 +46,7 @@ for gsc in gs_config:
             for k, v in c.items():
                 out_foldername.append(f"{k}={v}")
             out_foldername.append(f"scaling={scaling}")
-            out_foldername = '_'.join(out_foldername)
+            out_foldername = '-'.join(out_foldername)
             out_path = os.path.join(out_dir, out_foldername)
             if not os.path.exists(out_path):
                 os.makedirs(out_path)
