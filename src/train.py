@@ -1,18 +1,9 @@
 import os
+import argparse
 import importlib
-import json
-import pickle
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-import argparse
-
-def load_json(json_path):
-    with open(json_path, 'r') as file:
-        return json.load(file)
-
-def save_as_pickle(data, filename):
-    with open(filename, 'wb') as file:
-        pickle.dump(data, file)
+from utils import load_json, save_as_pickle
 
 def cluster_data(config_path, scaling_option, input_csv, output_dir):
 
@@ -28,6 +19,10 @@ def cluster_data(config_path, scaling_option, input_csv, output_dir):
 
     # Load and preprocess your data (assuming data is loaded as DataFrame)
     data = pd.read_csv(input_csv)
+
+    # Raise error if the column 'Cluster' exist
+    if "Cluster" in data.columns:
+        raise ValueError("The column 'Cluster' is found in the csv file, please rename or remove the column")
 
     # Apply scaling if specified
     if scaling_option == 'standard':

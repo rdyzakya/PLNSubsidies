@@ -56,6 +56,7 @@ def perform_pca(dataset_path, label_column, pca_params, output_dir):
     correlations['PC2_abs'] = abs(correlations['PC2'])
     correlations['sum_PC_abs'] = correlations['PC1_abs'] + correlations['PC2_abs']
     sorted_features = correlations.sort_values(by=['PC1_abs', 'PC2_abs'], ascending=[False, False])
+    sorted_features.drop(columns=['PC1_abs', 'PC2_abs'], inplace=True)
 
     # Save sorted feature names to output file
     corr_path = os.path.join(output_dir,"corr.csv")
