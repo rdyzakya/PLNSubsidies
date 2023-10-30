@@ -16,15 +16,6 @@
         "fit_params" : {}
     },
     {
-        "class_name" : "sklearn.svm.OneClassSVM",
-        "hparams" : {
-            "kernel" : ["linear", "poly", "rbf", "sigmoid", "precomputed"],
-            "nu" : [0.25, 0.5, 0.75],
-            "shrinking" : [true, false]
-        },
-        "fit_params" : {}
-    },
-    {
         "class_name" : "sklearn.ensemble.IsolationForest",
         "hparams" : {
             "n_estimators" : [100, 200, 300],
@@ -37,6 +28,15 @@
         "hparams" : {
             "n_neighbors" : [10, 20, 30, 40, 50],
             "leaf_size" : [10, 20, 30, 40, 50]
+        },
+        "fit_params" : {}
+    },
+    {
+        "class_name" : "sklearn.svm.OneClassSVM",
+        "hparams" : {
+            "kernel" : ["linear", "poly", "rbf", "sigmoid", "precomputed"],
+            "nu" : [0.25, 0.5, 0.75],
+            "shrinking" : [true, false]
         },
         "fit_params" : {}
     },
