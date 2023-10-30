@@ -60,18 +60,17 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
                     train_output = run_process(train_command)
                     
                     # EVAL
-                    # python ./src/eval.py --input_csv ./out/data_with_clusters.csv --output_file ./out/result.txt
+                    # python ./src/eval.py --input_csv ./out/data_with_clusters.csv --output_dir ./out
                     print("Evaluation...")
-                    sil_score_path = os.path.join(out_path, "silhouette_score.txt")
-                    eval_command = ["python", "eval.py", "--input_csv", os.path.join(out_path, "data_with_clusters.csv"), "--output_file", sil_score_path]
+                    eval_command = ["python", "eval.py", "--input_csv", os.path.join(out_path, "data_with_clusters.csv"), "--output_dir", out_path]
                     eval_output = run_process(eval_command)
 
                     ## get score
-                    with open(sil_score_path, 'r') as fp:
-                        sil_score = float(fp.read().strip())
-                    if sil_score > max_sil_score:
-                        max_sil_score = sil_score
-                        best_candidate = current_candidate
+                    # with open(sil_score_path, 'r') as fp:
+                    #     sil_score = float(fp.read().strip())
+                    # if sil_score > max_sil_score:
+                    #     max_sil_score = sil_score
+                    #     best_candidate = current_candidate
 
                     # PCA
                     # python ./src/pca.py --dataset_path ./out/data_with_clusters.csv --output_dir ./out

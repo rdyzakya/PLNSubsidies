@@ -1,12 +1,11 @@
-import pandas as pd
-import argparse
 import os
-from sklearn.metrics import silhouette_score, davies_bouldin_score
-from sklearn.metrics import pairwise_distances
-import pickle
 import json
+import pickle
+import argparse
+import pandas as pd
+from sklearn.metrics import silhouette_score, davies_bouldin_score, pairwise_distances
 
-def evaluate_clustering(input_dir, output_file):
+def evaluate_clustering(input_dir, output_dir):
     # Load clustered data
     clustered_data = pd.read_csv(os.path.join(input_dir, "data_with_clusters.csv"))
 
@@ -43,14 +42,13 @@ def evaluate_clustering(input_dir, output_file):
     
     print(metrics)
     
-    # Save silhouette score to a file
-    with open(output_file, 'w') as fp:
+    with open(os.path.join(output_dir, "metrics.json"), 'w') as fp:
         json.dump(metrics, fp)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Evaluate clustered data.')
     parser.add_argument('--input_dir', type=str, help='Path to clustered data and model directory')
-    parser.add_argument('--output_file', type=str, help='Path to save the silhouette score')
+    parser.add_argument('--output_dir', type=str, help='Path to output dir')
     args = parser.parse_args()
 
-    evaluate_clustering(args.input_dir, args.output_file)
+    evaluate_clustering(args.input_dir, args.output_dir)
