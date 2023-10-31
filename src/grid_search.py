@@ -66,7 +66,7 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
                     eval_output = run_process(eval_command)
 
                     ## get score
-                    metrics = load_json(os.path.join(out_path, "data_with_clusters.csv"))
+                    metrics = load_json(os.path.join(out_path, "metrics.json"))
                     score = overall_metrics(metrics)
                     if score > max_score:
                         max_score = score

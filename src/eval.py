@@ -3,6 +3,7 @@ import json
 import argparse
 import pandas as pd
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from sklearn.preprocessing import StandardScaler
 from utils import load_pickle
 
 def evaluate_clustering(input_dir, output_dir):
@@ -12,6 +13,7 @@ def evaluate_clustering(input_dir, output_dir):
     # Extract cluster labels and features
     cluster_labels = clustered_data['Cluster']
     features = clustered_data.drop(columns=['Cluster'])
+    features = StandardScaler().fit_transform(features)
     
     # Load model
     model = load_pickle(os.path.join(input_dir, "clustering_model.pkl"))
