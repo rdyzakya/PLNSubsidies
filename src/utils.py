@@ -31,7 +31,9 @@ def overall_metrics(metrics):
     # lower is better
     scaled_db_index = -2 * sigmoid(np.abs(db_index)) + 2 # -inf...inf
     # greater is better
-    scaled_ch_index = 2 * sigmoid(np.abs(ch_index)) - 1 # 0...inf
+    # scaled_ch_index = 2 * sigmoid(np.abs(ch_index)) - 1 # 0...inf
 
     # average
-    return (scaled_silhouette + scaled_db_index + scaled_ch_index) / 3
+    result = ch_index*(scaled_silhouette + scaled_db_index) / 2
+    print(scaled_silhouette, scaled_db_index, ch_index)
+    return result
