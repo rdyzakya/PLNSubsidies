@@ -3,7 +3,7 @@ import subprocess
 import argparse
 from itertools import product
 from copy import deepcopy
-from utils import load_json, dump_json
+from utils import load_json, dump_json, overall_metrics
 
 def run_process(command):
     output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
@@ -14,7 +14,7 @@ def run_process(command):
 def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.json", config_path="../config/config.json", out_dir="../out"):
     gs_config = load_json(gs_path)
 
-    max_sil_score = -1
+    max_score = -1
     best_candidate = {}
 
     for gsc in gs_config:
@@ -62,15 +62,15 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
                     # EVAL
                     # python ./src/eval.py --input_csv ./out/data_with_clusters.csv --output_dir ./out
                     print("Evaluation...")
-                    eval_command = ["python", "eval.py", "--input_csv", os.path.join(out_path, "data_with_clusters.csv"), "--output_dir", out_path]
+                    eval_command = ["python", "eval.py", "--input_dir", out_path, "--output_dir", out_path]
                     eval_output = run_process(eval_command)
 
                     ## get score
-                    # with open(sil_score_path, 'r') as fp:
-                    #     sil_score = float(fp.read().strip())
-                    # if sil_score > max_sil_score:
-                    #     max_sil_score = sil_score
-                    #     best_candidate = current_candidate
+                    metrics = load_json(os.path.join(out_path, "data_with_clusters.csv"))
+                    score = overall_metrics(metrics)
+                    if score > max_score:
+                        max_score = score
+                        best_candidate = current_candidate
 
                     # PCA
                     # python ./src/pca.py --dataset_path ./out/data_with_clusters.csv --output_dir ./out
