@@ -32,8 +32,11 @@ def overall_metrics(metrics):
     scaled_db_index = -2 * sigmoid(np.abs(db_index)) + 2 # -inf...inf
     # greater is better
     # scaled_ch_index = 2 * sigmoid(np.abs(ch_index)) - 1 # 0...inf
-    scaled_ch_index = metrics["ch_scaled"]
+    if "ch_scaled" in metrics:
+        scaled_ch_index = metrics["ch_scaled"]
 
-    # average
-    result = (scaled_silhouette + scaled_db_index + scaled_ch_index) / 3
+        # average
+        result = (scaled_silhouette + scaled_db_index + scaled_ch_index) / 3
+    else:
+        result = (scaled_silhouette + scaled_db_index) / 2
     return result
