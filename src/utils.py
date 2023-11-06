@@ -24,7 +24,7 @@ def sigmoid(x):
 def overall_metrics(metrics):
     silhouette = metrics["Silhouette Score"]
     db_index = metrics["Davies-Bouldin Index"]
-    ch_index = metrics["Calinski-Harabasz Index"]
+    # ch_index = metrics["Calinski-Harabasz Index"]
 
     # greater is better
     scaled_silhouette = (silhouette + 1)/2 # -1...1
@@ -32,8 +32,8 @@ def overall_metrics(metrics):
     scaled_db_index = -2 * sigmoid(np.abs(db_index)) + 2 # -inf...inf
     # greater is better
     # scaled_ch_index = 2 * sigmoid(np.abs(ch_index)) - 1 # 0...inf
+    scaled_ch_index = metrics["ch_scaled"]
 
     # average
-    result = ch_index*(scaled_silhouette + scaled_db_index) / 2
-    print(scaled_silhouette, scaled_db_index, ch_index)
+    result = (scaled_silhouette + scaled_db_index + scaled_ch_index) / 3
     return result

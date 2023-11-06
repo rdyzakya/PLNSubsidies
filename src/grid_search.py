@@ -3,6 +3,8 @@ import subprocess
 import argparse
 from itertools import product
 from copy import deepcopy
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 from utils import load_json, dump_json, overall_metrics
 
 def run_process(command):
@@ -14,8 +16,7 @@ def run_process(command):
 def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.json", config_path="../config/config.json", out_dir="../out"):
     gs_config = load_json(gs_path)
 
-    max_score = -1
-    best_candidate = {}
+    summary = []
 
     for gsc in gs_config:
 
@@ -66,11 +67,11 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
                     eval_output = run_process(eval_command)
 
                     ## get score
-                    metrics = load_json(os.path.join(out_path, "metrics.json"))
-                    score = overall_metrics(metrics)
-                    if score > max_score:
-                        max_score = score
-                        best_candidate = current_candidate
+                    score = load_json(os.path.join(out_path, "metrics.json"))
+                    score.update({
+                        "Name": out_foldername
+                    })
+                    summary.append(score)
 
                     # PCA
                     # python ./src/pca.py --dataset_path ./out/data_with_clusters.csv --output_dir ./out
@@ -79,9 +80,21 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
                     pca_output = run_process(pca_command)
                 except subprocess.CalledProcessError as e:
                     print("Error:", e.output)
-                print("="*128)
+                print("="*64)
 
-    print("Saving best candidate...")
+    print("Summarize scoere and saving best candidate...")
+    
+    summary = pd.DataFrame(summary)
+    columns = list(summary.columns)
+    columns.remove("Name")
+    summary = summary[["Name"] + columns]
+    summary["ch_scaled"] = MinMaxScaler().fit_transform(summary["Calinski-Harabasz Index"])
+    summary["overall"] = summary.apply(overall_metrics, axis=1)
+    summary = summary[["Name"] + columns + ["overall"]]
+    summary.to_csv(os.path.join(out_dir, "summary_score.csv"), index=False)
+
+    best_candidate = summary.loc[summary["overall"] == summary.overall.max()].iloc[0].to_dict()
+
     dump_json(best_candidate, os.path.join(out_dir, "best_candidate.json"))
 
 if __name__ == "__main__":
