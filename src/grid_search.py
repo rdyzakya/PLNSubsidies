@@ -18,7 +18,7 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
 
     summary = []
 
-    for gsc in gs_config:
+    for gsc in gs_config["gs"]:
 
         class_name = gsc["class_name"]
         hparams = gsc["hparams"]
@@ -38,7 +38,7 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
             }
             dump_json(config, config_path)
 
-            for scaling in ["standard", "minmax", "none"]:
+            for scaling in gs_config["scaling"]:
                 
                 out_foldername = [class_name]
                 for k, v in c.items():

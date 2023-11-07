@@ -1,35 +1,38 @@
-[
-    {
-        "class_name" : "sklearn.cluster.DBSCAN",
-        "hparams" : {
-            "eps" : [0.2, 0.5, 0.7, 1.0],
-            "min_samples" : [3, 5, 7, 9, 11]
+{
+    "gs" : [
+        {
+            "class_name" : "sklearn.cluster.DBSCAN",
+            "hparams" : {
+                "eps" : [0.2, 0.5, 0.7, 1.0],
+                "min_samples" : [3, 5, 7, 9, 11]
+            },
+            "fit_params" : {}
         },
-        "fit_params" : {}
-    },
-    {
-        "class_name" : "sklearn.cluster.SpectralClustering",
-        "hparams" : {
-            "n_clusters" : [2, 3, 4, 5, 6, 7, 8],
-            "affnity" : ["rbf", "nearest_neighbors"],
-            "eigen_solver" : [null, "arpack", "lobpcg", "amg"],
-            "random_state" : 42
+        {
+            "class_name" : "sklearn.cluster.SpectralClustering",
+            "hparams" : {
+                "n_clusters" : [2, 3, 4, 5, 6, 7, 8],
+                "affnity" : ["rbf", "nearest_neighbors"],
+                "eigen_solver" : [null, "arpack", "lobpcg", "amg"],
+                "random_state" : 42
+            }
+        },
+        {
+            "class_name" : "sklearn.ensemble.IsolationForest",
+            "hparams" : {
+                "n_estimators" : [100, 200, 300],
+                "random_state" : 42
+            },
+            "fit_params" : {}
+        },
+        {
+            "class_name" : "sklearn.neighbors.LocalOutlierFactor",
+            "hparams" : {
+                "n_neighbors" : [10, 20, 30, 40, 50],
+                "leaf_size" : [10, 20, 30, 40, 50]
+            },
+            "fit_params" : {}
         }
-    },
-    {
-        "class_name" : "sklearn.ensemble.IsolationForest",
-        "hparams" : {
-            "n_estimators" : [100, 200, 300],
-            "random_state" : 42
-        },
-        "fit_params" : {}
-    },
-    {
-        "class_name" : "sklearn.neighbors.LocalOutlierFactor",
-        "hparams" : {
-            "n_neighbors" : [10, 20, 30, 40, 50],
-            "leaf_size" : [10, 20, 30, 40, 50]
-        },
-        "fit_params" : {}
-    }
-]
+    ],
+    "scaling" : ["standard", "minmax", "none"]
+}
