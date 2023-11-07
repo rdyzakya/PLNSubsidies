@@ -1,0 +1,1 @@
+{"Name": "sklearn.neighbors.LocalOutlierFactor-n_neighbors=40-leaf_size=40-scaling=minmax", "Silhouette Score": 0.6032476854750004, "Davies-Bouldin Index": 2.5144224992957764, "Calinski-Harabasz Index": 800.9998102326401, "ch_scaled": 1.0, "overall": 0.6504434634691098}

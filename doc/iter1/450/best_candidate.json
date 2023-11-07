@@ -1,1 +1,1 @@
-{"class_name": "sklearn.cluster.KMeans", "hparams": {"n_clusters": 8, "random_state": 42}, "fit_params": {}, "scaling": "none"}
+{"Name": "sklearn.cluster.KMeans-n_clusters=8-random_state=42-scaling=none", "Silhouette Score": 0.5332263197581193, "Davies-Bouldin Index": 0.5804105575095879, "Calinski-Harabasz Index": 77838.6054404553, "Inertia": 8565884745330.517, "ch_scaled": 0.9999999999999999, "overall": 0.8280964731996444}

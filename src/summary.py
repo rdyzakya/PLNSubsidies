@@ -28,6 +28,10 @@ def summarize(directory):
     result = result[["Name"] + columns]
     result.to_csv(os.path.join(directory, "summary_score.csv"), index=False)
 
+    best_candidate = result.loc[result["overall"] == result.overall.max()].iloc[0].to_dict()
+
+    utils.dump_json(best_candidate, os.path.join(directory, "best_candidate.json"))
+
     print("Done.., saved in", os.path.join(directory, "summary_score.csv"))
 
 if __name__ == "__main__":
