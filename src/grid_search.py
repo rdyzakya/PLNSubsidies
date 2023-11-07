@@ -88,7 +88,7 @@ def main(data_path="../data/preprocessed_data_all.csv", gs_path="../config/gs.js
     columns = list(summary.columns)
     columns.remove("Name")
     summary = summary[["Name"] + columns]
-    summary["ch_scaled"] = MinMaxScaler().fit_transform(summary["Calinski-Harabasz Index"].values.reshape(1,-1)).reshape(-1,1)
+    summary["ch_scaled"] = MinMaxScaler().fit_transform(summary[["Calinski-Harabasz Index"]])
     summary["overall"] = summary.apply(overall_metrics, axis=1)
     summary = summary[["Name"] + columns + ["overall"]]
     summary.to_csv(os.path.join(out_dir, "summary_score.csv"), index=False)

@@ -21,14 +21,14 @@ def summarize(directory):
         })
         result.append(entry)
     result = pd.DataFrame(result)
-    result["ch_scaled"] = MinMaxScaler().fit_transform(result["Calinski-Harabasz Index"].values.reshape(1,-1)).reshape(-1,1)
-    result["overall"] = summary.apply(overall_metrics, axis=1)
+    result["ch_scaled"] = MinMaxScaler().fit_transform(result[["Calinski-Harabasz Index"]])
+    result["overall"] = result.apply(utils.overall_metrics, axis=1)
     columns = list(result.columns)
     columns.remove("Name")
     result = result[["Name"] + columns]
-    result.to_csv(os.path.join(directory, "summary.csv"), index=False)
+    result.to_csv(os.path.join(directory, "summary_score.csv"), index=False)
 
-    print("Done.., saved in", os.path.join(directory, "summary.csv"))
+    print("Done.., saved in", os.path.join(directory, "summary_score.csv"))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Summarize modeling results.')
