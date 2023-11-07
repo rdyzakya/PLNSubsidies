@@ -46,7 +46,11 @@ def cluster_data(config_path, scaling_option, input_csv, output_dir):
     try:
         cluster_labels = clustering_model.predict(data_scaled)
     except:
-        cluster_labels = clustering_model.labels_
+        try:
+            cluster_labels = clustering_model.labels_
+        except:
+            clustering_model = clustering_class(**clustering_params)
+            cluster_labels = clustering_model.fit_predict(data_scaled)
 
     # Turn data_scaled into pandas dataframe
     data_scaled = pd.DataFrame(data_scaled, columns=data.columns)
