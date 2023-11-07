@@ -16,25 +16,33 @@ def evaluate_clustering(input_dir, output_dir):
     
     # Load model
     model = load_pickle(os.path.join(input_dir, "clustering_model.pkl"))
-    
-    # Silhouette Score (higher is better)
-    silhouette = silhouette_score(features, cluster_labels)
-    
-    # Davies-Bouldin Index (lower is better)
-    db_index = davies_bouldin_score(features, cluster_labels)
 
-    # Calinski-Harabasz Index 
-    ch_index = calinski_harabasz_score(features, cluster_labels)
+    try:
     
-    metrics = {
-        'Silhouette Score': silhouette,
-        'Davies-Bouldin Index': db_index,
-        'Calinski-Harabasz Index': ch_index
-    }
+        # Silhouette Score (higher is better)
+        silhouette = silhouette_score(features, cluster_labels)
+        
+        # Davies-Bouldin Index (lower is better)
+        db_index = davies_bouldin_score(features, cluster_labels)
 
-    if "inertia_" in dir(model):
-        metrics["Inertia"] = model.inertia_
-    
+        # Calinski-Harabasz Index 
+        ch_index = calinski_harabasz_score(features, cluster_labels)
+        
+        metrics = {
+            'Silhouette Score': silhouette,
+            'Davies-Bouldin Index': db_index,
+            'Calinski-Harabasz Index': ch_index
+        }
+
+        if "inertia_" in dir(model):
+            metrics["Inertia"] = model.inertia_
+    except:
+        metrics = {
+            'Silhouette Score': -1,
+            'Davies-Bouldin Index': 1000,
+            'Calinski-Harabasz Index': 0
+        }
+        
     print(metrics)
     
     with open(os.path.join(output_dir, "metrics.json"), 'w') as fp:

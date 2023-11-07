@@ -1,3 +1,3 @@
-python grid_search.py --data "../data/preprocessed_data_all.csv" --gs "../config/gs.json" --config "../config/config.json" --out "../out/out_all"
-python grid_search.py --data "../data/preprocessed_data_450.csv" --gs "../config/gs.json" --config "../config/config.json" --out "../out/out_450"
-python grid_search.py --data "../data/preprocessed_data_900.csv" --gs "../config/gs.json" --config "../config/config.json" --out "../out/out_900"
+python grid_search.py --data "../data/preprocessed_data_all.csv" --gs "../config/gs.json" --config "../config/config.json" --out "../out/iter2/out_all"
+python grid_search.py --data "../data/preprocessed_data_450.csv" --gs "../config/gs.json" --config "../config/config.json" --out "../out/iter2/out_450"
+python grid_search.py --data "../data/preprocessed_data_900.csv" --gs "../config/gs.json" --config "../config/config.json" --out "../out/iter2/out_900"

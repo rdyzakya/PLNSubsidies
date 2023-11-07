@@ -1,1 +1,1 @@
-{"class_name": "sklearn.cluster.DBSCAN", "hparams": {"eps": 1.0, "min_samples": 11}, "fit_params": {}}
+{"class_name": "sklearn.cluster.DBSCAN", "hparams": {"eps": 0.2, "min_samples": 3}, "fit_params": {}}
