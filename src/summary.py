@@ -1,7 +1,8 @@
 import os
 import json
-import pandas as pd
 import argparse
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 import utils
 
 def summarize(directory):
@@ -16,11 +17,12 @@ def summarize(directory):
         except:
             continue
         entry.update({
-            "Name" : d,
-            "Overall" : utils.overall_metrics(entry)
+            "Name" : d
         })
         result.append(entry)
     result = pd.DataFrame(result)
+    result["ch_scaled"] = MinMaxScaler().fit_transform(result["Calinski-Harabasz Index"].values.reshape(1,-1)).reshape(-1,1)
+    result["overall"] = summary.apply(overall_metrics, axis=1)
     columns = list(result.columns)
     columns.remove("Name")
     result = result[["Name"] + columns]
