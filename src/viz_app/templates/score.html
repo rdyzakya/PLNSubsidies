@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ score_type }} Slider</title>
+</head>
+<body>
+    <h1>{{ score_type }} Slider</h1>
+    <input type="range" min="0" max="{{ length-1 }}" value="0" step="1" id="scoreSlider">
+    <p>Current Value: <span id="scoreValue">{{ scores[0] }}</span></p>
+    <p>Name: <span id="modelName">{{ names[0] }}</span></p>
+    <img src="{{ image_url }}" alt="Scatter Plot Image" id="scatterImage">
+
+    <script>
+        const slider = document.getElementById('scoreSlider');
+        const output = document.getElementById('scoreValue');
+        const modelName = document.getElementById('modelName');
+        const image = document.getElementById('scatterImage');
+        const names = eval("{{ names }}".replace(/&#39;/g, '"'));
+        const scores = eval("{{ scores }}");
+
+        slider.addEventListener('input', function() {
+            output.textContent = scores[slider.value];
+            modelName.textContent = names[slider.value];
+            image.src = `/static/images/${names[slider.value]}/scatter.jpg`;
+        });
+    </script>
+</body>
+</html>
