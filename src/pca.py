@@ -18,26 +18,9 @@ distinct_colors = [
 
 def save_scatter(df, out_path):
     # Determine the number of clusters from the unique values in 'Cluster' column
-    # num_clusters = df['Cluster'].nunique()
 
     # Create a list of unique cluster labels
     cluster_labels = df['Cluster'].unique()
-
-    # Plotting the clusters dynamically based on the number of clusters
-    # plt.figure(figsize=(8, 6))
-
-    # Iterate through each cluster and plot the data points
-    # for label in cluster_labels:
-    #     cluster_data = df[df['Cluster'] == label]
-    #     plt.scatter(cluster_data['PC1'], cluster_data['PC2'], label=f'Cluster {label}')
-
-    # # Set labels and title
-    # plt.xlabel('PC1')
-    # plt.ylabel('PC2')
-    # plt.title('Cluster Visualization')
-
-    # # Add legend
-    # plt.legend()
 
     # Create subplots
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
@@ -47,7 +30,6 @@ def save_scatter(df, out_path):
     
     axes[0].set_xlabel('PC1')
     axes[0].set_ylabel('PC2')
-    # axes[0].legend()
 
     ax = fig.add_subplot(122, projection='3d')
     for label in cluster_labels:
@@ -57,7 +39,6 @@ def save_scatter(df, out_path):
     ax.set_xlabel('PC1')
     ax.set_ylabel('PC2')
     ax.set_zlabel('PC3')
-    # ax.legend()
 
     # Set plot titles
     axes[0].set_title('2D Scatter Plot (PC1 vs PC2)')
