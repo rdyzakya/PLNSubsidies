@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 out/
+/src/viz_app/static/

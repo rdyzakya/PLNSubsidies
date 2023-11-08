@@ -36,6 +36,9 @@ if __name__ == '__main__':
 
     if not os.path.exists("./static"):
         os.makedirs("./static")
+    else:
+        shutil.rmtree("./static")
+        os.makedirs("./static")
 
     shutil.copy(os.path.join(args.dir, "summary_score.csv"), "./static/summary_score.csv")
 
