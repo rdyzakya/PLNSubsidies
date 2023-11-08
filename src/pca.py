@@ -1,6 +1,7 @@
 import pandas as pd
 import argparse
 import json
+import random
 import os
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
@@ -15,6 +16,28 @@ distinct_colors = [
     '#a55194', '#ce6dbd', '#de9ed6'
 ]
 
+def mutate_hex_colors(color1, color2):
+    # Convert hex colors to RGB format
+    r1, g1, b1 = int(color1[1:3], 16), int(color1[3:5], 16), int(color1[5:7], 16)
+    r2, g2, b2 = int(color2[1:3], 16), int(color2[3:5], 16), int(color2[5:7], 16)
+    
+    # Perform mutation (for example, swapping red and blue channels)
+    mutated_r1, mutated_g1, mutated_b1 = b1, g1, r1
+    mutated_r2, mutated_g2, mutated_b2 = b2, g2, r2
+    
+    # Convert mutated RGB values back to hex format
+    mutated_color1 = f"#{mutated_r1:02x}{mutated_g1:02x}{mutated_b1:02x}"
+    mutated_color2 = f"#{mutated_r2:02x}{mutated_g2:02x}{mutated_b2:02x}"
+    
+    return mutated_color1, mutated_color2
+
+def get_color(index):
+    if index < len(distinct_colors):
+        return distinct_colors[index]
+    index = index%len(distinct_colors)
+    mc1, mc2 = mutate_hex_colors(distinct_colors[index], distinct_colors[index-1])
+    return random.choice([mc1, mc2])
+
 
 def save_scatter(df, out_path):
     # Determine the number of clusters from the unique values in 'Cluster' column
@@ -26,7 +49,7 @@ def save_scatter(df, out_path):
     fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(12, 5))
     for label in cluster_labels:
         cluster_data = df[df['Cluster'] == label]
-        axes[0].scatter(cluster_data['PC1'], cluster_data['PC2'], color=distinct_colors[label], label=f'Cluster {label}')
+        axes[0].scatter(cluster_data['PC1'], cluster_data['PC2'], color=get_color(label), label=f'Cluster {label}')
     
     axes[0].set_xlabel('PC1')
     axes[0].set_ylabel('PC2')
@@ -34,7 +57,7 @@ def save_scatter(df, out_path):
     ax = fig.add_subplot(122, projection='3d')
     for label in cluster_labels:
         cluster_data = df[df['Cluster'] == label]
-        ax.scatter(cluster_data['PC1'], cluster_data['PC2'], cluster_data['PC3'], color=distinct_colors[label], label=f'Cluster {label}')
+        ax.scatter(cluster_data['PC1'], cluster_data['PC2'], cluster_data['PC3'], color=get_color(label), label=f'Cluster {label}')
     
     ax.set_xlabel('PC1')
     ax.set_ylabel('PC2')

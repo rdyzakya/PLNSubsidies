@@ -9,7 +9,6 @@ from utils import load_json, dump_json, overall_metrics
 
 def run_process(command):
     output = subprocess.check_output(command, stderr=subprocess.STDOUT, universal_newlines=True)
-    print("Output of eval.py:")
     print(output)
     return output
 
