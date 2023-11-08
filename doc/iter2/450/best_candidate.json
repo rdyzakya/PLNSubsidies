@@ -1,0 +1,1 @@
+{"Name": "sklearn.cluster.DBSCAN-eps=0.5-min_samples=15-scaling=standard", "Silhouette Score": 0.5009851561313572, "Davies-Bouldin Index": 1.238977609451059, "Calinski-Harabasz Index": 2982.8423386739505, "overall": 0.733240191182312}
