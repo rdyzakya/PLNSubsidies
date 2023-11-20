@@ -112,6 +112,7 @@ if __name__ == "__main__":
     parser.add_argument('--dataset_path', type=str, help='Path to the input dataset CSV file')
     parser.add_argument('--label_column', type=str, help='Column name for cluster or label (to exclude from features)', default="Cluster")
     parser.add_argument('--pca_params', type=str, help='Path to JSON file containing PCA parameters')
+    parser.add_argument('--with_label', action='store_true', help='If true, then the visualization will differ for each cluster')
     parser.add_argument('--output_dir', type=str, help='Path to output directory')
     args = parser.parse_args()
 
@@ -121,4 +122,4 @@ if __name__ == "__main__":
         with open(args.pca_params, 'r') as json_file:
             pca_params = json.load(json_file)
 
-    perform_pca(args.dataset_path, args.label_column, pca_params, args.output_dir)
+    perform_pca(args.dataset_path, args.label_column, pca_params, args.output_dir, args.with_label)
